@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Import;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Category;
+use App\Jobs\Import\ProcessDocument;
 
 class DocumentController extends Controller
 {
@@ -26,16 +26,7 @@ class DocumentController extends Controller
         $data = json_decode($contents);
 
         foreach ($data->documentos as $document) {
-            $category = Category::firstOrCreate([
-                'name' => $document->categoria
-            ]);
-
-            $contentKey = 'conteúdo';
-
-            $category->documents()->create([
-                'title' => $document->titulo,
-                'contents' => $document->$contentKey
-            ]);
+            ProcessDocument::dispatch($document)->onQueue('import:documents');
         }
 
         return $data;
