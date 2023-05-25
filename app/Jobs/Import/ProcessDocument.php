@@ -47,14 +47,14 @@ class ProcessDocument implements ShouldQueue
     public function handle(): void
     {
         $category = Category::firstOrCreate([
-            'name' => $this->document->categoria
+            'name' => $this->document->categoria,
         ]);
 
         $contentKey = 'conteúdo';
 
         $category->documents()->create([
             'title' => $this->document->titulo,
-            'contents' => $this->document->$contentKey
+            'contents' => $this->document->$contentKey,
         ]);
     }
 }

@@ -3,20 +3,27 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
+    /**
+     * The categories to be created.
+     */
+    public $categories = [
+        'Remessa Parcial',
+        'Remessa',
+    ];
+
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('categories')->insert([
-            'name' => 'Remessa Parcial'
-        ]);
-        DB::table('categories')->insert([
-            'name' => 'Remessa'
-        ]);
+        foreach ($this->categories as $category) {
+            Category::firstOrCreate([
+                'name' => $category
+            ]);
+        }
     }
 }
