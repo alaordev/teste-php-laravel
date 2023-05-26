@@ -14,5 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('panel.import');
 });
+
+Route::get('import', function () {
+    return view('panel.import.document');
+})->name('panel.import');
